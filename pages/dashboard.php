@@ -8,19 +8,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   if (isset($_POST['logout'])) {
     include("../backend/logout.php");
   }
-
-  if (isset($_POST['addUser'])) {
-    include("../backend/addUser.php");
-  }
-
-  if(isset($_POST['editUser'])){
-    include("../backend/editUser.php");
-  }
-
-  if (isset($_POST['deleteUser'])) {
-    include("../backend/deleteUser.php");
-  }
 }
+
 include("../backend/fetchUserAccounts.php");
 ?>
 <!DOCTYPE html>
@@ -141,7 +130,7 @@ include("../backend/fetchUserAccounts.php");
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                  <form method="POST">
+                  <form method="POST" action="../backend/editUser.php">
                     <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
                     <label for="fullname" class="form-label text-secondary">Full Name</label>
                     <input class="form-control mb-3" type="text" name="fullname" value="<?php echo $row['fullname']; ?>" required>
@@ -162,8 +151,6 @@ include("../backend/fetchUserAccounts.php");
 
                     </select>
                     <button type="submit" class="btn btn-warning text-black w-100" name="editUser">Update</button>
-
-
                     </form>
                 </div>
                 
@@ -180,7 +167,7 @@ include("../backend/fetchUserAccounts.php");
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                  <form method="POST">
+                  <form method="POST" action="../backend/deleteUser.php">
                     <input type="hidden" name="del_id" value="<?php echo $row['id']; ?>">
                     Are you sure you want to delete this user
                 </div>
@@ -207,7 +194,7 @@ include("../backend/fetchUserAccounts.php");
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form method="POST">
+          <form method="POST" action="../backend/addUser.php">
             <input class="form-control mb-3" name="fullName" type="text" placeholder="Full Name" required>
             <input class="form-control mb-3" name="email" type="email" placeholder="Email" required>
             <select name="role" class="form-control mb-3">
@@ -224,7 +211,6 @@ include("../backend/fetchUserAccounts.php");
   </div>
 
 
-
   <div class="toast" role="alert" data-bs-delay="3000" aria-live="assertive" aria-atomic="true" id="liveToast" style="position: absolute; top: 20px; right: 20px;">
 
     <div class="d-flex align-items-center w-100">
@@ -237,7 +223,6 @@ include("../backend/fetchUserAccounts.php");
         else if(isset($_SESSION['error'])){
             echo '<p class="mb-0 text-danger"><i class="fa-solid fa-triangle-exclamation"></i> ' . $_SESSION['error'] . '</p>';
         }
-        
         ?>
       </div>
 
@@ -254,11 +239,12 @@ include("../backend/fetchUserAccounts.php");
         var toastEl = document.getElementById('liveToast');
         var toast = new bootstrap.Toast(toastEl);
         toast.show();
-        unset($_SESSION['success']);
-        unset($_SESSION['error']);
       <?php endif; ?>
     });
   </script>
+  <?php
+  unset($_SESSION['success'], $_SESSION['error']);
+  ?>
 </body>
 
 </html>

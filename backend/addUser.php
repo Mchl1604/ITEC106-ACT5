@@ -1,4 +1,6 @@
 <?php 
+session_start();
+
 include("database.php");
   $fullName = $_POST['fullName'];
   $email = $_POST['email'];

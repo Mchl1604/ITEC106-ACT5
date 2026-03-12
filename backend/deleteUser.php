@@ -1,4 +1,6 @@
 <?php 
+session_start();
+
 include("database.php");
 
 $id = $_POST['del_id'];

@@ -1,4 +1,6 @@
 <?php 
+session_start();
+
 include("database.php");
 
 $id = $_POST['id'];
@@ -12,7 +14,7 @@ $checkIfAccExistQuery = "SELECT fullname, email FROM tbl_users WHERE (fullname =
 $result = $conn -> query($checkIfAccExistQuery);
 
 if($result->num_rows>0){
-  $message = "Account already Exist";
+  $_SESSION['error'] = "Account already Exist";
   header("Location: ../pages/dashboard.php");
   exit();
 }
@@ -27,10 +29,10 @@ if($password != ""){
 $updateUserQuery .= "WHERE id = '$id'";
 
 if($conn -> query($updateUserQuery)){
-  $message = "User successfully updated";
+  $_SESSION['success'] = "User successfully updated";
 }
 else{
-  $message = "Database Error: " . $conn->error;
+  $_SESSION['error'] = "Database Error: " . $conn->error;
 }
 
 header("Location: ../pages/dashboard.php");
